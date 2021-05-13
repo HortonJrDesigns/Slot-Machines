@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Slot Machine</title>
+</head>
+<body>
+<!-- img tag to contain the slot1 machine image -->
+<img id="img_slot1" width=100 height=100 />
+<!-- p tag to contain the slot1 machine score -->
+<p id="score_slot1" ></p>
+  
+<!-- img tag to contain the slot2 machine image -->
+<img id="img_slot2" width=100 height=100 />
+<!-- p tag to contain the slot2 machine score -->
+<p id="score_slot2" ></p>
+  
+<!-- img tag to contain the slot3 machine image -->
+<img id="img_slot3" width=100 height=100 />
+<!-- p tag to contain the slot3 machine score -->
+<p id="score_slot3" ></p>
+  
+<!-- anchor tag to reload the page -->
+<!-- span tag is used to align the anchor tag at the bottom -->
+<span style="position: absolute; bottom: 10px; margin-left: 50%;">
+<a href="javascript:void(0)" onclick="window.location.reload()">Spin</a>
+</span>
+  
+  
+<script>
+// spin(): generates a random number between 0 and 6.
+function spin() {
+// generate a random number between 0 and 9 using Math.floor((Math.random()* 10))
+// then to generate random number between 0 to 6, generate the remainder by dividing
+// it with 7.
+return Math.floor((Math.random()* 10)) % 7;
+}
+  
+// evaluateGame(): takes three parameters and returns the winning score
+function evaluateGame(a, b, c){
+// If there are three 0’s for the random values win 14
+if(a === 0 && b === 0 && c === 0)
+return 14;
+
+// If there are three of any other number win 7
+if(a === b && b === c)
+return 7;
+
+// If there are two 0’s in the first and second spot then win 4.
+if(a === 0 && b === 0)
+return 4;
+
+// If there are two of any other number in the first two spots win 2.
+if(a === b)
+return 2;
+
+// If there is a 0 in the first spot then win 1.
+if(a === 0)
+return 1;
+  
+// Else, return 0
+else
+return 0;
+}
+  
+  
+//Lets create an array which stores images urls
+var imgSrc = [
+'http://moziru.com/images/cherry-clipart-chery-6.png',
+'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6LXCvq2XMzLjK6Z3iB9EWvYUZhMotr9UNPKNEczHSxkFtaMV3zg',
+'http://dice-casino.com/wp-content/uploads/2016/12/slot-bar-symbols.png',
+'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-NbVscjoed4mkBlGPKa7RC1JwrI26W6tfRviKMzjXx7H1r-fVjA',
+'https://gallery.yopriceville.com/var/albums/Free-Clipart-Pictures/Fruit-PNG/Large_Bananas_PNG_Clipart.png?m=1375394400',
+'http://moziru.com/images/coin-clipart-11.png',
+'https://static.wixstatic.com/media/3557a1_8b5fb1e94559491281435e176fe59665~mv2.png/v1/fill/w_402,h_241,al_c,usm_0.66_1.00_0.01/3557a1_8b5fb1e94559491281435e176fe59665~mv2.png'
+];
+  
+// generatePicture() changes the source of the image with given id. The src url will
+// depend on the number passed.
+function generatePicture(id, num) {
+  
+// since I am storing only 5 images in the imgSrc,
+// I am setting the image src depending on num % 5 value.
+document.getElementById(id).src = imgSrc[num % 6];
+}
+  
+// play() is the entry point which populates all the image and scores.
+function play() {
+// For loop for 3 slot machines
+for(var i=1; i<=3; i++){
+// asign the value of spin() to three variables
+var a = spin();
+var b = spin();
+var c = spin();
+  
+// Now, find the <img> and <p> to populate the image and score
+var imgId = "img_slot" + i;
+var scoreId = "score_slot" + i;
+  
+console.log(imgId);
+console.log(scoreId);
+  
+// calculate the score
+var score = evaluateGame(a, b, c);
+console.log(score);
+  
+//set the image url
+generatePicture(imgId, score);
+  
+// now, set the score
+document.getElementById(scoreId).innerHTML = "Score = " + score;
+}
+}
+  
+play();
+  
+</script>
+</body>
+</html>
+
